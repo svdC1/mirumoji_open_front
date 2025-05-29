@@ -4,6 +4,10 @@
 
 -   Built with **React 18 + Vite + Tailwind CSS**, along with [Python (FastAPI) backend.](https://github.com/svdC1/mirumoji_open_api)
 
+## **Preview Without API**
+
+-   You can view a preview of the application without the functionalities provided by the backend at this [Github Pages Preview](https://svdc1.github.io/mirumoji_open_front/)
+
 ---
 
 ## Overview
