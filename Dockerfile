@@ -1,6 +1,8 @@
 # Alpine versions are smaller.
 FROM node:22-alpine
-
+# Set API base for VITE
+ARG VITE_API_BASE_BUILD_ARG
+ENV VITE_API_BASE=${VITE_API_BASE_BUILD_ARG}
 # Set the working directory in the container
 WORKDIR /app
 

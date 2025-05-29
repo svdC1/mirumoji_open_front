@@ -64,6 +64,8 @@ jobs:
                   file: ./Dockerfile
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
+                  build-args: |
+                      VITE_API_BASE_BUILD_ARG=http://backend:8000
                   labels: ${{ steps.meta.outputs.labels }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
