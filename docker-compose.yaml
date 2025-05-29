@@ -1,13 +1,10 @@
-
-    version: '3.8'
-
     services:
       frontend:
         image: ghcr.io/svdc1/mirumoji_open_front:latest
         ports:
           - "4173:4173"
         environment:
-          - VITE_API_BASE_URL=http://localhost:8000
+          - VITE_API_BASE=http://localhost:8000
         depends_on:
           - backend
         networks:
