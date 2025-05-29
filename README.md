@@ -34,9 +34,9 @@ Mirumoji helps you learn Japanese from your favorite video and audio content. It
 
 ## Setup
 
--   Both the frontend _(This repo)_ along with the [backend](https://github.com/svdC1/mirumoji_open_api) can be set up using the [`docker-compose.yaml`](https://github.com/mirumoji_open_front/docker-compose.yaml). Images are pre-built and made available through the GitHub Registry.
+-   Both the frontend _(This repo)_ along with the [backend](https://github.com/svdC1/mirumoji_open_api) can be set up using the [`docker-compose.yaml`](https://github.com/svdC1/mirumoji_open_front/blob/main/docker-compose.yaml). Images are pre-built and made available through the GitHub Registry.
 
--   **For detailed instructions on how to set it up, please refer to the [Setup Guide](https://github.com/svdC1/mirumoji_open_front/SETUP_README.md)**
+-   **For detailed instructions on how to set it up, please refer to the [Setup Guide](https://github.com/svdC1/mirumoji_open_front/blob/main/SETUP_README.md)**
 
 ---
 
