@@ -11,7 +11,6 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.2.0",
-        "@rollup/rollup-win32-x64-msvc": "^4.41.1",
         "budoux": "^0.7.0",
         "framer-motion": "^11.0.0",
         "kuromoji": "^0.1.2",
@@ -26,6 +25,7 @@
         "react-router-dom": "^7.5.3",
         "remark-breaks": "^4.0.0",
         "remark-gfm": "^4.0.1",
+        "rollup": "^4.41.1",
         "srt-parser-2": "^1.0.3",
         "swr": "^2.3.3"
     },
