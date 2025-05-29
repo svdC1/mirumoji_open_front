@@ -17,6 +17,9 @@ concurrency:
 
 jobs:
     deploy:
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -31,7 +34,7 @@ jobs:
               run: npm ci
 
             - name: Build for GitHub Pages
-              run: npm run build --base=https://svdc1.github.io/mirumoji_open_front/
+              run: npm run build --base /mirumoji_open_front/
               env:
                   VITE_API_BASE: ""
             - name: Setup Pages
