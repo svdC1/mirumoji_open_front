@@ -17,7 +17,7 @@ import {
     AnkiExportResponse,
 } from "../types";
 
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = "api/";
 export default function SavedPage() {
     const { profileId } = useProfile();
     const [deletingClipId, setDeletingClipId] = useState<string | null>(null);

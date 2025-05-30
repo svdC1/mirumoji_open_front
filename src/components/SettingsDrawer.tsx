@@ -6,7 +6,7 @@ import { apiFetch, ApiError } from "../utils/api";
 import { toastApiError } from "../utils/error_toaster";
 import { formatStaticUrl } from "../utils/file_utils";
 import { ConvertVideoResponse, GenerateSrtResponse } from "../types";
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = "api/";
 export interface Props {
     video: File | null;
     srt: File | null;
