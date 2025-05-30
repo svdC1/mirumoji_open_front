@@ -1,24 +1,36 @@
-# Alpine versions are smaller.
-FROM node:22-alpine
-# Set API base for VITE
-ARG VITE_API_BASE_BUILD_ARG
-ENV VITE_API_BASE=${VITE_API_BASE_BUILD_ARG}
-# Set the working directory in the container
+# ---- Build Stage ----
+# Use a Node.js image to build your Vite project
+FROM node:22-alpine AS builder
+
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
-# Install project dependencies
-RUN npm install --frozen-lockfile
+# Install dependencies
+RUN npm install
 
-# Copy source
+# Copy the rest of your application code
 COPY . .
 
-# Build the application for production
+# Build the Vite project
 RUN npm run build
 
-EXPOSE 4173
+# ---- Serve Stage ----
+# Use an Nginx image to serve the built application
+FROM nginx:1.25-alpine
 
-# The '--' separates arguments for npm from arguments for the script.
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
+# Remove default Nginx configuration
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy the built static assets from the 'builder' stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expose port 80 (which Nginx listens on by default)
+EXPOSE 80
+
+# Start Nginx when the container launches
+CMD ["nginx", "-g", "daemon off;"]

@@ -6,7 +6,7 @@ export class ApiError extends Error {
     }
 }
 
-const BASE = import.meta.env.VITE_API_BASE;
+const BASE = "api/";
 
 /**
  * A fetch replacement that:
