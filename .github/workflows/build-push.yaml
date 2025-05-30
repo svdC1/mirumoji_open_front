@@ -10,6 +10,8 @@ on:
             - ".github/**"
             - "README.md"
             - "docker-compose.yaml"
+            - ".gitinore"
+            - ".gitattribures"
     # Run manually
     workflow_dispatch:
 

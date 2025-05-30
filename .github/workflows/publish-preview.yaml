@@ -8,6 +8,8 @@ on:
             - "docker-compose.yaml"
             - ".github/**"
             - "README.md"
+            - ".gitinore"
+            - ".gitattribures"
     workflow_dispatch:
 
 permissions:
