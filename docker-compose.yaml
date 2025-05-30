@@ -19,6 +19,8 @@ services:
     volumes:
       - jamdict_data:/root/.jamdict/data
       - huggingface_cache:/root/.cache/huggingface
+      - mirumoji_db:/app/mirumoji.db
+      - media_files:/app/media_files
     deploy:
       resources:
         reservations:
@@ -32,6 +34,8 @@ services:
 volumes:
   jamdict_data:
   huggingface_cache:
+  mirumoji_db:
+  media_files:
 
 networks:
   app-network:
