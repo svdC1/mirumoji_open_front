@@ -2,17 +2,34 @@
 
 This guide explains how to run Mirumoji on your local machine using Docker Compose. This setup uses pre-built Docker images for both the frontend and backend services, which will be pulled from GitHub Container Registry (ghcr.io).
 
+## Choose How GPU Features Run
+
+-   Mirumoji uses a large transcription AI model and tools for video processing which require an NVIDIA GPU.
+-   If you don't have one, or prefer not to run it on your local one, Mirumoji is set up to work with [`MODAL`](https://modal.com) **without any additional configuration**
+
+## About Modal
+
+-   [`MODAL`](https://modal.com) is a platform which provides cloud computing services, **allowing the application's features which require a GPU to be run remotely**
+-   Although it's a **paid** platform they have a very generous **free-tier** which you should be able to use for a long time.
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
 
-1.  **Docker and Docker Compose:**
+-   **Docker and Docker Compose:**
     -   **Windows/macOS:** Install [Docker Desktop](https://www.docker.com/products/docker-desktop/). It includes Docker Compose.
     -   **Linux:** Install [Docker Engine](https://docs.docker.com/engine/install/) and then [Docker Compose](https://docs.docker.com/compose/install/).
-2.  **For Backend GPU Acceleration:**
-    -   **NVIDIA GPU:** You need an NVIDIA graphics card.
-    -   **NVIDIA Drivers:** Ensure you have the latest NVIDIA drivers installed for your operating system.
-    -   **NVIDIA Container Toolkit:** Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html). This allows Docker containers to access your NVIDIA GPU. _If you don't have an NVIDIA GPU, a CPU version allowing access to [MODAL](https://modal.com/) GPU functions using your own credentials is in progress so stay tuned to the next releases._
+
+### _When Running With Local GPU_
+
+These apply only if you choose to run
+using your local GPU.
+
+-   **NVIDIA GPU:** You need an NVIDIA graphics card.
+
+-   **NVIDIA Drivers:** Ensure you have the latest NVIDIA drivers installed for your operating system.
+
+-   **NVIDIA Container Toolkit:** Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html). This allows Docker containers to access your NVIDIA GPU.
 
 ## Setup Instructions
 
@@ -20,15 +37,22 @@ Before you begin, ensure you have the following installed on your system:
 
     -   Download the `docker-compose.yaml` file from this GitHub release and place it in a new, empty directory on your computer (e.g., `my-app-local`).
 
-2.  **Create an Environment File for the API Key:**
+2.  **Create an Environment File for the API Keys:**
 
-    -   The backend service requires an OpenAI API Key for any GPT-related tasks._If you don't have one you can create it at [OpenAI's API Dshboard](https://platform.openai.com/settings/organization/api-keys)_
-
+    -   The backend service requires an OpenAI API Key for any GPT-related tasks._If you don't have one you can create it at [OpenAI's API Dashboard](https://platform.openai.com/settings/organization/api-keys)_
+    -   **IMPORTANT:** If you choose to run without a local GPU, [`MODAL`](https://modal.com), you'll need to insert your `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET` into the `.env` file as well.
     -   In the same directory where you saved `docker-compose.yaml`, create a new file named `.env`.
-    -   Open the `.env` file with a text editor and add your OpenAI API key as follows:
+    -   Open the `.env` file with a text editor and add your API keys as follows:
 
         ```env
-        OPENAI_API_KEY=your_openai_api_key
+        OPENAI_API_KEY=***
+        ```
+
+    -   If using MODAL add also:
+
+        ```env
+        MODAL_TOKEN_ID=***
+        MODAL_TOKEN_SECRET=***
         ```
 
 ## Running the Application
