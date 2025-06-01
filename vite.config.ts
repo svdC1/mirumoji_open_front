@@ -59,5 +59,16 @@ export default defineConfig({
     define: {
         global: "window",
     },
-    server: { port: 5173 },
+    server: {
+        port: 5173,
+        proxy: {
+            // Proxy requests in the dev server to /api
+            "/api": {
+                target: "http://localhost:8000",
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            },
+        },
+    },
 });
