@@ -9,9 +9,7 @@ on:
         paths-ignore:
             - ".github/**"
             - "README.md"
-            - "docker-compose.yaml"
-            - ".gitignore"
-            - ".gitattributes"
+            - "docs/**"
     # Run manually
     workflow_dispatch:
 
