@@ -30,7 +30,7 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy Licenses
-COPY .gitub/licenses licenses
+COPY --from=builder app/.github/licenses /licenses
 
 # Expose port 80 (which Nginx listens on by default)
 EXPOSE 80
