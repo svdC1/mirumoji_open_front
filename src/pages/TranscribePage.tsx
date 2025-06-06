@@ -16,13 +16,6 @@ import { Tokenizer, IpadicFeatures } from "kuromoji";
 import WordDialog from "../components/WordDialog";
 import { isKanji, toHiragana } from "../utils/languageUtils";
 
-/**
- * Check if navigator.mediaDevices is available.
- */
-const canStream =
-    typeof navigator !== "undefined" &&
-    !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-
 interface Message {
     id: string;
     type: "user" | "bot";
@@ -438,7 +431,7 @@ export default function TranscribePage() {
                             {sending ? "Sending…" : "Send Audio"}
                         </button>
                     </div>
-                ) : canStream ? (
+                ) : (
                     <div className="flex gap-2">
                         <button
                             onClick={recording ? stopRecording : startRecording}
@@ -466,28 +459,6 @@ export default function TranscribePage() {
                             type="file"
                             accept="audio/*"
                             ref={fileInputRef}
-                            onChange={handleFileUpload}
-                            className="hidden"
-                            disabled={sending}
-                        />
-                    </div>
-                ) : (
-                    <div className="flex gap-2">
-                        <label
-                            htmlFor="capture-upload"
-                            className={`flex-1 py-2 rounded-lg text-white text-center cursor-pointer ${
-                                sending
-                                    ? "bg-zinc-700 opacity-50 cursor-not-allowed"
-                                    : "bg-green-600 hover:bg-green-500"
-                            }`}
-                        >
-                            Record&nbsp;Audio
-                        </label>
-                        <input
-                            id="capture-upload"
-                            type="file"
-                            accept="audio/*"
-                            capture="user"
                             onChange={handleFileUpload}
                             className="hidden"
                             disabled={sending}
