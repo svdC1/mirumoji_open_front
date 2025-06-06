@@ -6,7 +6,7 @@ export class ApiError extends Error {
     }
 }
 
-const BASE = "api/";
+const BASE = "api";
 
 /**
  * A fetch replacement that:
