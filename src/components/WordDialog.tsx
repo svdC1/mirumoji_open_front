@@ -242,25 +242,59 @@ export default function WordDialog({
             toast.error("No video source available");
             return;
         }
-        const adjustedCueEnd = cueEnd + 1.0;
+        const videoElement = document.getElementById(
+            "mirumoji-player"
+        ) as HTMLVideoElement;
+        if (!videoElement) {
+            toast.error("Video player not found.");
+            setSaving(false);
+            return;
+        }
+        let adjustedCueEnd = cueEnd + 1.0;
         if (cueStart >= adjustedCueEnd) {
             toast.error("Invalid clip duration.");
             setSaving(false);
             return;
         }
+        // Try to get Video Duration so that clip extension doesn't exceed it
+        const videoDuration = videoElement.duration;
 
+        // Only clamp if videoDuration is a valid, finite number
+        if (
+            typeof videoDuration === "number" &&
+            !isNaN(videoDuration) &&
+            isFinite(videoDuration)
+        ) {
+            if (cueStart >= videoDuration) {
+                toast.error("Clip start time is at or after video end.");
+                setSaving(false);
+                return;
+            }
+            if (adjustedCueEnd > videoDuration) {
+                console.warn(
+                    `Adjusted cue end (${adjustedCueEnd}s) exceeds video duration (${videoDuration}s). Clamping to video duration.`
+                );
+                adjustedCueEnd = videoDuration;
+            }
+        } else {
+            console.warn(
+                "Video duration is not available or not finite (e.g., live stream). Using original cueEnd"
+            );
+            adjustedCueEnd = cueEnd;
+        }
         setSaving(true);
         let gptData = data;
 
         if (!gptData) {
+            toast.loading("Fetching GPT", {
+                id: "gptSaveToast",
+            });
             try {
-                toast.loading("Fetching GPT", {
-                    id: "gptSaveToast",
-                });
                 gptData = await fetchGptData();
                 toast.dismiss("gptSaveToast");
             } catch (error) {
                 setSaving(false);
+                toast.dismiss("gptSaveToast");
                 return;
             }
         }
@@ -268,15 +302,6 @@ export default function WordDialog({
         if (!gptData) {
             setSaving(false);
             toast.error("Could not fetch GPT. Please try again.");
-            return;
-        }
-
-        const videoElement = document.getElementById(
-            "mirumoji-player"
-        ) as HTMLVideoElement;
-        if (!videoElement) {
-            toast.error("Video player not found.");
-            setSaving(false);
             return;
         }
 
@@ -478,8 +503,8 @@ export default function WordDialog({
                                 <h2 className="text-xl font-bold mb-1">
                                     {data.focus.word}
                                 </h2>
-                                {(data.focus.reading ||
-                                    data.focus.meanings?.length) && (
+                                {data.focus.reading ||
+                                data.focus.meanings?.length ? (
                                     <div className="mt-1 mb-3 text-neutral-300 text-base leading-relaxed">
                                         {data.focus.reading && (
                                             <span className="mr-2 italic">
@@ -491,6 +516,10 @@ export default function WordDialog({
                                                 {data.focus.meanings.join("；")}
                                             </span>
                                         )}
+                                    </div>
+                                ) : (
+                                    <div className="mt-1 mb-3 text-neutral-300 text-base leading-relaxed">
+                                        No Reading/Meaning Found
                                     </div>
                                 )}
                                 <ReactMarkdown
