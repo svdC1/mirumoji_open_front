@@ -30,10 +30,19 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy Licenses
-COPY --from=builder app/.github/licenses /licenses
+COPY .github/licenses /licenses
 
-# Expose port 80 (which Nginx listens on by default)
+# Ensure openssl to generate cert
+RUN apk add --no-cache openssl
+
+# Copy Entrypoint
+COPY entrypoint.sh /entrypoint.sh
+
+# Make Entrypoint executable
+RUN chmod +x /entrypoint.sh
+# Expose ports
 EXPOSE 80
+EXPOSE 443
 
-# Start Nginx when the container launches
-CMD ["nginx", "-g", "daemon off;"]
+# Run Entrypoint
+ENTRYPOINT [ "/entrypoint.sh" ]
